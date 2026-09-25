@@ -72,6 +72,7 @@ export default memo(ProductItem);
 
 const styles = StyleSheet.create({
   row: {
+    marginHorizontal: 12,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: C.white,

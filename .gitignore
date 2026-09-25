@@ -8,3 +8,4 @@ web-build/
 mobile-assets-tmp/
 src-assets/
 .DS_Store
+dist-web/

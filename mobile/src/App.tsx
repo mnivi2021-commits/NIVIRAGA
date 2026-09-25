@@ -142,15 +142,22 @@ function OrderScreen() {
     // qty only matters for the "Selected only" filter
   }, [term, selOnly, selOnly ? qty : null]);
 
-  const clear = () =>
+  // Alert is a no-op on web, so fall back to the browser dialogs there.
+  const clear = () => {
+    if (Platform.OS === 'web') {
+      if (window.confirm('Clear all quantities?')) setQty({});
+      return;
+    }
     Alert.alert('Clear order', 'Clear all quantities?', [
       { text: 'Cancel', style: 'cancel' },
       { text: 'Clear', style: 'destructive', onPress: () => setQty({}) },
     ]);
+  };
 
   const viewBill = () => {
     if (!summary.products) {
-      Alert.alert('No items', 'Please enter quantity for at least one item.');
+      if (Platform.OS === 'web') window.alert('Please enter quantity for at least one item.');
+      else Alert.alert('No items', 'Please enter quantity for at least one item.');
       return;
     }
     setBillOpen(true);
