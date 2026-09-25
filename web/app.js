@@ -55,6 +55,13 @@ waBill.onclick=()=>{const sel=P.filter(r=>qty[r[0]]),v=id=>document.getElementBy
   ...(d.length?["*75% OFF Items*",...d.map(line),""]:[]),...(n.length?["*Net Rate Items*",...n.map(line),""]:[]),
   `Discount Items Total: ${sD.textContent}`,`Less 75%: ${sL.textContent}`,`After Discount: ${sA.textContent}`,`Net Rate Total: ${sN.textContent}`,`*GRAND TOTAL: ${sG.textContent}*`,sC.textContent].join("\n");
  open("https://wa.me/919566612707?text="+encodeURIComponent(t),"_blank")};
+(function(){const up=document.getElementById("pgUp"),dn=document.getElementById("pgDn"),H=()=>document.documentElement.scrollHeight-innerHeight;
+ const sync=()=>{up.disabled=scrollY<40;dn.disabled=scrollY>H()-40};addEventListener("scroll",sync,{passive:true});addEventListener("resize",sync);sync();
+ const bind=(b,dir)=>{let t,held=false;
+  b.addEventListener("pointerdown",()=>{held=false;t=setTimeout(()=>{held=true;scrollTo({top:dir<0?0:H(),behavior:"smooth"})},600)});
+  const stop=()=>clearTimeout(t);b.addEventListener("pointerup",stop);b.addEventListener("pointerleave",stop);b.addEventListener("contextmenu",e=>e.preventDefault());
+  b.addEventListener("click",()=>{if(held)return;scrollBy({top:dir*Math.max(200,innerHeight*.85),behavior:"smooth"})})};
+ bind(up,-1);bind(dn,1)})();
 (function(){const cv=fx,ctx=cv.getContext('2d');if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
  const cols=['#ffd400','#fff3a0','#ff9d00','#ffffff','#ffe066'];let parts=[],W,H;
  const size=()=>{const r=cv.getBoundingClientRect(),dp=devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*dp;cv.height=H*dp;ctx.setTransform(dp,0,0,dp,0,0)};size();addEventListener('resize',size);

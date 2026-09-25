@@ -79,3 +79,6 @@ main{min-width:0}.group table{display:table}.group{overflow-x:auto}
  td.q::after{content:attr(data-q)}tr.sel td{background:none}.ghead{background:none!important;color:#000;border-bottom:2px solid #000}
  .srow.grand{background:none;color:#000;border-top:2px solid #000}}
 .btn.wa{background:#1f8f4e;color:#fff;border-color:#1f8f4e}
+.pager{position:fixed;right:16px;bottom:140px;z-index:45;display:flex;flex-direction:column;gap:10px}.pg{width:48px;height:48px;border-radius:50%;border:3px solid var(--gold);background:var(--brand);color:var(--gold);font-size:18px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.3);touch-action:manipulation}.pg:disabled{opacity:.35;cursor:default}.pg:hover:not(:disabled){filter:brightness(1.15)}
+@media (max-width:760px){.pager{bottom:16px;right:10px}.pg{width:44px;height:44px;opacity:.9}}
+@media print{.pager{display:none}}body.billopen .pager{display:none}

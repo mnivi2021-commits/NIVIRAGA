@@ -84,6 +84,19 @@ function OrderScreen() {
   const [billOpen, setBillOpen] = useState(false);
   const ready = useRef(false);
   const list = useRef<FlatList<Item>>(null);
+  const offset = useRef(0);
+  const viewH = useRef(600);
+  const contentH = useRef(0);
+  const [atTop, setAtTop] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  // Scroll one screen (minus the sticky search bar and bottom bar) up or down.
+  const page = (dir: 1 | -1) => {
+    const step = Math.max(200, viewH.current - 180);
+    const max = Math.max(0, contentH.current - viewH.current);
+    const next = Math.min(max, Math.max(0, offset.current + dir * step));
+    list.current?.scrollToOffset({ offset: next, animated: true });
+  };
 
   // Restore saved quantities and customer details.
   useEffect(() => {
@@ -259,6 +272,15 @@ function OrderScreen() {
         windowSize={11}
         contentContainerStyle={{ paddingBottom: 90 + insets.bottom }}
         style={styles.fill}
+        onLayout={(e) => (viewH.current = e.nativeEvent.layout.height)}
+        onScroll={(e) => {
+          const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
+          offset.current = contentOffset.y;
+          contentH.current = contentSize.height;
+          setAtTop(contentOffset.y < 40);
+          setAtEnd(contentOffset.y + layoutMeasurement.height > contentSize.height - 40);
+        }}
+        scrollEventThrottle={100}
       />
 
       <View style={[styles.bottom, { paddingBottom: 10 + insets.bottom }]}>
@@ -267,12 +289,26 @@ function OrderScreen() {
           <Text style={styles.bTotal}>{fmt(summary.grand)}</Text>
           <Text style={styles.bCount}>{countText(summary)}</Text>
         </View>
+        {/* Page up / down: tap moves one screen, long-press jumps to top / bottom (summary). */}
         <Pressable
-          style={[styles.btn, styles.yellow]}
-          onPress={() => list.current?.scrollToEnd({ animated: true })}
-          accessibilityLabel="Show order summary"
+          onPress={() => page(-1)}
+          onLongPress={() => list.current?.scrollToOffset({ offset: 0, animated: true })}
+          disabled={atTop}
+          style={({ pressed }) => [styles.pageBtn, (pressed || atTop) && { opacity: 0.45 }]}
+          accessibilityRole="button"
+          accessibilityLabel="Page up. Long press to go to top"
         >
-          <Text style={styles.btnTxt}>Summary</Text>
+          <Text style={styles.pageTxt}>▲</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => page(1)}
+          onLongPress={() => list.current?.scrollToEnd({ animated: true })}
+          disabled={atEnd}
+          style={({ pressed }) => [styles.pageBtn, (pressed || atEnd) && { opacity: 0.45 }]}
+          accessibilityRole="button"
+          accessibilityLabel="Page down. Long press to go to bottom"
+        >
+          <Text style={styles.pageTxt}>▼</Text>
         </Pressable>
         <Pressable style={[styles.btn, styles.yellow]} onPress={viewBill}>
           <Text style={styles.btnTxt}>View Order</Text>
@@ -402,6 +438,15 @@ const styles = StyleSheet.create({
     borderColor: C.brand,
     backgroundColor: C.gold,
   },
+  pageBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: C.gold,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pageTxt: { color: C.brand, fontSize: 18, lineHeight: 22, fontFamily: F.sansBold },
   bottom: {
     position: 'absolute',
     left: 0,
