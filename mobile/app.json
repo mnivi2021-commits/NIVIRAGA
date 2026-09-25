@@ -39,6 +39,18 @@
     ],
     "scheme": "niviraga",
     "backgroundColor": "#fef7dd",
-    "primaryColor": "#bb0916"
+    "primaryColor": "#bb0916",
+    "extra": {
+      "eas": {
+        "projectId": "79580070-eb2b-44ab-bac0-f0fe47d1c629"
+      }
+    },
+    "owner": "niviraga",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/79580070-eb2b-44ab-bac0-f0fe47d1c629"
+    }
   }
 }
