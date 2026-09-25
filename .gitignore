@@ -1,0 +1,10 @@
+node_modules/
+.expo/
+dist/
+web-build/
+.vercel/
+*.log
+.env*
+mobile-assets-tmp/
+src-assets/
+.DS_Store

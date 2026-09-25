@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "NIVI & RAGA Crackers",
+    "slug": "niviraga",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.niviraga.crackers"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#bb0916",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.niviraga.crackers"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "NIVI & RAGA Crackers"
+    },
+    "plugins": [
+      "expo-sharing",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#bb0916"
+        }
+      ]
+    ],
+    "scheme": "niviraga",
+    "backgroundColor": "#fef7dd",
+    "primaryColor": "#bb0916"
+  }
+}
